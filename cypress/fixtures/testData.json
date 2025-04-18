@@ -1,0 +1,26 @@
+{
+  "users": {
+    "valid": {
+      "email": "test@example.com",
+      "password": "ValidPass123!"
+    },
+    "invalid": {
+      "email": "nonexistent@example.com",
+      "password": "WrongPass123!"
+    }
+  },
+  "errorMessages": {
+    "invalidCredentials": "Invalid email or password",
+    "unregisteredEmail": "Email address is not registered",
+    "requiredEmail": "Email is required",
+    "requiredPassword": "Password is required",
+    "networkError": "Network error",
+    "rateLimit": "Too many attempts"
+  },
+  "timeouts": {
+    "defaultCommand": 10000,
+    "networkRequest": 15000,
+    "pageLoad": 30000
+  }
+}
+
