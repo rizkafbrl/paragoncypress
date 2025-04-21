@@ -1,26 +1,51 @@
 const { defineConfig } = require('cypress');
-const { getConfig } = require('./cypress/config/env.config');
+
+const viewportConfig = {
+  width: 1280,
+  height: 720,
+};
+
+const defaultTimeouts = {
+  DEFAULT_COMMAND_TIMEOUT: 10000,
+  PAGE_LOAD_TIMEOUT: 30000,
+  NETWORK_REQUEST_TIMEOUT: 15000,
+  MEDIUM_TIMEOUT: 15000,
+  QUICK_TIMEOUT: 5000,
+  FAST_TIMEOUT: 600,
+};
 
 module.exports = defineConfig({
   projectId: 'beyondly-login',
   e2e: {
     setupNodeEvents(on, config) {
-      const testEnv = config.env.TEST_ENV || 'demo';
-      const envConfig = getConfig(testEnv);
+      const environments = {
+        staging: {
+          baseUrl: 'https://recruitment-staging-queenbee.paradev.io',
+          viewportWidth: viewportConfig.width,
+          viewportHeight: viewportConfig.height,
+          defaultCommandTimeout: defaultTimeouts.DEFAULT_COMMAND_TIMEOUT,
+          pageLoadTimeout: defaultTimeouts.PAGE_LOAD_TIMEOUT,
+          requestTimeout: defaultTimeouts.QUICK_TIMEOUT,
+          responseTimeout: defaultTimeouts.MEDIUM_TIMEOUT,
+        },
+      };
 
-      config.baseUrl = 'https://recruitment-staging-queenbee.paradev.io';
-      config.viewportWidth = envConfig.viewportWidth;
-      config.viewportHeight = envConfig.viewportHeight;
-      config.defaultCommandTimeout = envConfig.defaultCommandTimeout;
-      config.pageLoadTimeout = envConfig.pageLoadTimeout;
-      config.requestTimeout = envConfig.requestTimeout;
-      config.responseTimeout = envConfig.responseTimeout;
+      const getEnvironmentConfig = () => {
+        return environments.staging;
+      };
+
+      const environmentConfig = getEnvironmentConfig();
+      config.baseUrl = environmentConfig.baseUrl;
+      config.viewportWidth = environmentConfig.viewportWidth;
+      config.viewportHeight = environmentConfig.viewportHeight;
+      config.defaultCommandTimeout = environmentConfig.defaultCommandTimeout;
+      config.pageLoadTimeout = environmentConfig.pageLoadTimeout;
 
       require('@cypress/code-coverage/task')(on, config);
       return config;
     },
-    specPattern: 'cypress/e2e/**/*.cy.js',
-    supportFile: 'cypress/support/e2e.js',
+    specPattern: 'cypress/e2e/**/*.spec.js',
+    supportFile: false,
     video: true,
     screenshotOnRunFailure: true,
     chromeWebSecurity: false,
@@ -28,6 +53,26 @@ module.exports = defineConfig({
       runMode: 2,
       openMode: 1,
     },
+    env: {
+      viewportConfig,
+      defaultTimeouts,
+      routes: {
+        login: '/login',
+        dashboard: '/dashboard',
+        forgotPassword: '/forgot-password',
+        register: '/register',
+      },
+      testTags: {
+        smoke: '@smoke',
+        regression: '@regression',
+        e2e: '@e2e',
+        api: '@api',
+      },
+    },
+    viewportWidth: viewportConfig.width,
+    viewportHeight: viewportConfig.height,
+    defaultCommandTimeout: defaultTimeouts.DEFAULT_COMMAND_TIMEOUT,
+    pageLoadTimeout: defaultTimeouts.PAGE_LOAD_TIMEOUT,
     reporter: 'cypress-multi-reporters',
     reporterOptions: {
       configFile: 'reporter-config.json',

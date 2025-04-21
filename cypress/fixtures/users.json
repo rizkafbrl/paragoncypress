@@ -1,26 +1,6 @@
 {
-  "validUser": {
-    "email": "test@example.com",
-    "password": "ValidPass123!"
-  },
-  "invalidPassUser": {
-    "email": "test@example.com",
-    "password": "WrongPass123!"
-  },
-  "unregisteredUser": {
-    "email": "nonexistent@example.com",
-    "password": "TestPass123!"
-  },
-  "invalidFormatUser": {
-    "email": "notanemail",
-    "password": "short"
-  },
-  "trimTestUser": {
-    "email": "  test@example.com  ",
-    "password": "  ValidPass123!  "
-  },
-  "caseTestUser": {
-    "email": "TEST@EXAMPLE.COM",
-    "password": "ValidPass123!"
+  "userWithValidNumberAndPassword": {
+    "phoneNumber": "85795295270",
+    "password": "Testing123!"
   }
 }
